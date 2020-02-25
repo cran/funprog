@@ -11,7 +11,7 @@ descending(f)
 }
 \value{
 A function returning a numeric vector which, if passed to
-\code{\link{order}}, will be used to sort the original data.
+\code{\link{order}}, will be used to sort some data.
 }
 \description{
 Transform a function (typically used in \code{\link{sort_by}}), so that its

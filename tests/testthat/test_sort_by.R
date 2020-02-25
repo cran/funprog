@@ -68,3 +68,52 @@ test_that("incorrect input", {
   )
 
 })
+
+test_that("purrr syntax", {
+
+  input <- list(
+    c(a = 1, b = 2, c = 3),
+    c(a = -10, b = 20)
+  )
+
+  expect_equal(
+    sort_by(input, "a"),
+    rev(input)
+  )
+
+  expect_equal(
+    sort_by(input, "b"),
+    input
+  )
+
+  expect_equal(
+    sort_by(input, descending("b")),
+    rev(input)
+  )
+
+  expect_equal(
+    sort_by(input, 1),
+    rev(input)
+  )
+
+  expect_equal(
+    sort_by(input, 2),
+    input
+  )
+
+  expect_equal(
+    sort_by(input, descending(2)),
+    rev(input)
+  )
+
+  expect_equal(
+    sort_by(input, ~ .["a"]),
+    rev(input)
+  )
+
+  expect_equal(
+    sort_by(input, descending(~ .["b"])),
+    rev(input)
+  )
+
+})

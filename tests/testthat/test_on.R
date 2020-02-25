@@ -20,3 +20,23 @@ test_that("laziness", {
   )
 
 })
+
+test_that("predicates with purrr syntax", {
+
+  expect_true(
+    (`==` %on% 1)(1, 1:2)
+  )
+
+  expect_true(
+    (`==` %on% (~ .[1]))(1, 1:2)
+  )
+
+  expect_true(
+    ((~ .x == .y) %on% 1)(1, 1:2)
+  )
+
+  expect_true(
+    ((~ .x == .y) %on% (~ .[1]))(1, 1:2)
+  )
+
+})

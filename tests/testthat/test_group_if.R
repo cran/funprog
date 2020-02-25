@@ -1,123 +1,3 @@
-# add_val_to_groups -------------------------------------------------------
-
-context(":::add_val_to_groups")
-
-add_val_to_groups <- funprog:::add_val_to_groups
-
-test_that("on atomic values", {
-
-  expect_equal(
-    add_val_to_groups(list(), 1, `==`),
-    list(1)
-  )
-
-  expect_equal(
-    add_val_to_groups(list(1), 1, `==`),
-    list(c(1, 1))
-  )
-
-  expect_equal(
-    add_val_to_groups(list(1), 2, `==`),
-    list(1, 2)
-  )
-
-  expect_equal(
-    add_val_to_groups(
-      list(1, c(2,2)),
-      2,
-      `==`
-    ),
-    list(
-      1,
-      c(2, 2, 2)
-    )
-  )
-
-  expect_equal(
-    add_val_to_groups(
-      list(1, c(2,2)),
-      1,
-      `==`
-    ),
-    list(
-      1,
-      c(2, 2),
-      1
-    )
-  )
-
-})
-
-test_that("on list values", {
-
-  expect_equal(
-    add_val_to_groups(
-      list(),
-      list(1:3),
-      identical
-    ),
-    list(
-      list(1:3)
-    )
-  )
-
-  expect_equal(
-    add_val_to_groups(
-      list(list(1:3, 1:3)),
-      list(1:3),
-      identical
-    ),
-    list(
-      list(1:3, 1:3, 1:3)
-    )
-  )
-
-  expect_equal(
-    add_val_to_groups(
-      list(list(1:3, 1:3)),
-      list(4:5),
-      identical
-    ),
-    list(
-      list(1:3, 1:3),
-      list(4:5)
-    )
-  )
-
-  expect_equal(
-    add_val_to_groups(
-      list(
-        list(1:3),
-        list(4:5, 4:5)
-      ),
-      list(4:5),
-      identical
-    ),
-    list(
-      list(1:3),
-      list(4:5, 4:5, 4:5)
-    )
-  )
-
-  expect_equal(
-    add_val_to_groups(
-      list(
-        list(1:3),
-        list(4:5, 4:5)
-      ),
-      list(1:3),
-      identical
-    ),
-    list(
-      list(1:3),
-      list(4:5, 4:5),
-      list(1:3)
-    )
-  )
-
-})
-
-
 # group_if -----------------------------------------------------------------
 
 context("group_if")
@@ -211,6 +91,25 @@ test_that("other predicates", {
       c("f", "g"),
       "h"
     )
+  )
+
+})
+
+test_that("empty-ish", {
+
+  expect_equal(
+    group_eq(character(0)),
+    list()
+  )
+
+  expect_equal(
+    group_eq(list()),
+    list()
+  )
+
+  expect_equal(
+    group_eq(NULL),
+    list()
   )
 
 })
@@ -323,6 +222,33 @@ test_that("on list of data.frames (list of lists)", {
         data.frame(C = c(1, -1), D = 2, E = 3)
       )
     )
+  )
+
+})
+
+test_that("purrr syntax", {
+
+  input  <- list(1:3, 1:2, 1, 4)
+  output <- list(list(1:3, 1:2, 1), list(4))
+
+  expect_equal(
+    group_if(input, `==` %on% 1),
+    output
+  )
+
+  expect_equal(
+    group_if(input, `==` %on% ~ .[1]),
+    output
+  )
+
+  expect_equal(
+    group_if(input, (~ .x == .y) %on% 1),
+    output
+  )
+
+  expect_equal(
+    group_if(input, (~ .x == .y) %on% (~ .[1])),
+    output
   )
 
 })

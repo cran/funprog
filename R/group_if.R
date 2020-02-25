@@ -52,20 +52,17 @@ group_if <- function(x, predicate, na.rm = FALSE) {
   if (is.atomic(x)) {
     # check NA
     if (anyNA(x)) {
-      if (na.rm) x <- x[!is.na(x)] else stop("impossible, missing values")
+      if (na.rm) {
+        x <- x[!is.na(x)]
+      } else {
+        stop("impossible, missing values")
+      }
     }
-  } else {
-    # encapsulate every element in a list
-    if (is.recursive(x)) x <- lapply(x, list)
   }
 
-  # add vals to groups with a fold
-  res <-
-    Reduce(
-      function(g, v) add_val_to_groups(g, v, predicate = predicate),
-      x,
-      init = list()
-    )
+  prev_same_grp <- mapply(predicate, x[-length(x)], x[-1])
+  grps <- cumsum(c(FALSE, !prev_same_grp))
+  res <- unname(split(x, grps))
 
   # reapply names
   reapply_names(res, names(x))
@@ -87,43 +84,6 @@ group_eq <- function(x, na.rm = FALSE) {
 
 
 # Helper function ---------------------------------------------------------
-
-add_val_to_groups <- function(groups, new_val, predicate) {
-
-  # function collapsing a new value into a list of groups
-  # predicate : a function of two arguments returning a boolean value :
-  #   - if TRUE,  the two arguments belong to same group
-  #   - if FALSE, the two arguments belong to different groups
-  # will be used as a folding function
-
-  n <- length(groups)
-
-  last_val <- NULL
-  if (length(groups)) {
-    last_group <- groups[[n]]
-    last_val <- last_group[length(last_group)]
-  }
-
-  if (!length(groups)) {
-
-    # initialize
-    list(new_val)
-
-  } else if (predicate(last_val[[1]], new_val[[1]])) {
-
-    # add to last group
-    groups[[n]] <- c(groups[[n]], new_val)
-    groups
-
-  } else {
-
-    # create new group
-    if (is.recursive(new_val)) new_val <- list(new_val)
-    c(groups, new_val)
-
-  }
-
-}
 
 reapply_names <- function(x, nm) {
 

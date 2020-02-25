@@ -20,3 +20,19 @@ test_that("laziness", {
   )
 
 })
+
+test_that("purrr syntax", {
+
+  input <- list(c(a = 1, b = 2, c = 3), c(a = 10, b = 20))
+
+  expect_equal(
+    descending(~ abs(.))(-2:1),
+    descending(abs)(-2:1)
+  )
+
+  expect_equal(
+    descending(1)(input),
+    descending(function(x) x[[1]])(input)
+  )
+
+})
