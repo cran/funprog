@@ -31,7 +31,7 @@ remotes::install_gitlab("py_b/funprog")
 ## Main functions
 
 Currently, the main functions are all inspired by
-[Haskell](https://wiki.haskell.org) functions.
+[Haskell](https://wiki.haskell.org/Haskell) functions.
 
 ### `group_if`
 
@@ -41,6 +41,10 @@ function.
 The predicate is a binary function returning a boolean, applied to every
 couple of adjacent elements. If it evaluates to `TRUE`, those elements
 belong to the same group, otherwise they belong to different groups.
+
+Using the equality as a predicate is frequent, therefore `group_eq` is a
+shortcut defined as ``group_if(x, `==`)`` for atomic vectors and
+`group_if(x, identical)` for other types.
 
 ``` r
 x1 <- c(2, 4, 2, 2, 1, 1, 1, 3)

@@ -1,7 +1,7 @@
 Package: funprog
 Type: Package
 Title: Functional Programming
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: 
   person(
     "Pierre-Yves", "Berrard",
@@ -16,14 +16,14 @@ Description:
     functions, as well as the possibility to use the 'purrr' package syntax.
 License: GPL-2
 URL: https://py_b.gitlab.io/funprog, https://gitlab.com/py_b/funprog
-BugReports: https://gitlab.com/py_b/funprog/issues
+BugReports: https://gitlab.com/py_b/funprog/-/issues
 Suggests: purrr (>= 0.2.3), testthat
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2020-02-24 22:55:35 UTC; CPY_2
+Packaged: 2020-11-07 11:10:44 UTC; CPY_2
 Author: Pierre-Yves Berrard [aut, cre]
 Maintainer: Pierre-Yves Berrard <pyb@gmx.com>
 Repository: CRAN
-Date/Publication: 2020-02-25 05:20:02 UTC
+Date/Publication: 2020-11-07 11:20:03 UTC

@@ -28,7 +28,11 @@ sort_by <- function(x,
                     ...,
                     method = c("auto", "shell", "radix")) {
 
-  method <- match.arg(method)
+  if (utils::packageVersion("base") < "3.4.0") {
+    if (method[1] == "auto") method <- "shell" # auto didn't exist before 3.4.0
+  } else {
+    method <- match.arg(method)
+  }
 
   funs <- list(...)
   if (requireNamespace("purrr", quietly = TRUE)) {
